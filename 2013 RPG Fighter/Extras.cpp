@@ -8,10 +8,11 @@
 
 void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 {
-	printf("\n\nThat was tough... Now your HP is not full becouse of that. you have %iHP remaining.", hero->combat.hp);
-	getchar();
+	printf("\n\nThat was tough... Now your HP is not full because of that. you have %iHP remaining.", hero->combat.hp);
+	
 	printf("\n\nThere are a few options you can follow at this point. \n\n-You could give me 100 coins for more potions, in which case you should imput 'b'.\n\n-You could heal yourself (notice you cannot heal and buy in the same wave), in which case you should imput 'h'.\n\n-You could go on with your adventure without any modification in which case you should just imput any other thing.");
-	printf("\n\nYou currently have %i coins and %i potions, if you try to buy without 100 of them or heal wothout potions you will be teleported back to the dungeon automatically.", hero->coins, hero->items.potions);
+	
+	printf("\n\nYou currently have %i coins and %i potions, if you try to buy without 100 of them or heal without potions you will be teleported back to the dungeon automatically.\n\n", hero->coins, hero->items.potions);
 	getchar();
 
 	char imput;
@@ -87,7 +88,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 	minion_goblin_2->xp						= 15;
 	minion_goblin_2->items.potions			= 0;
 
-	globin->combat.hp						= 100;
+	globin->combat.hp						= 50;
 	globin->combat.attack_min				= 10;
 	globin->combat.attack_max				= 25;
 	globin->combat.armor					= 6;
@@ -155,6 +156,8 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 				if (minion_goblin_1->combat.hp <= 0)
 				{
+					hero->xp += minion_goblin_1->xp;
+					hero->coins += minion_goblin_1->coins;
 					printf("\n\nGood job, now he is dead!");
 					getchar();
 				}
@@ -193,6 +196,8 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 				if (minion_goblin_2->combat.hp <= 0)
 				{
+					hero->xp += minion_goblin_2->xp;
+					hero->coins += minion_goblin_2->coins;
 					printf("\n\nGood job, now he is dead!");
 					getchar();
 				}
@@ -231,6 +236,8 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 				if (globin->combat.hp <= 0)
 				{
+					hero->xp += globin->xp;
+					hero->coins += globin->coins;
 					printf("\n\nFinally! He fell! Good job!!");
 					getchar();
 				}
@@ -243,11 +250,11 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 		{
 			alive_enemies--;
 		}
-		else if (minion_goblin_2->combat.hp <= 0)
+		if (minion_goblin_2->combat.hp <= 0)
 		{
 			alive_enemies--;
 		}
-		else if (globin->combat.hp <= 0)
+		if (globin->combat.hp <= 0)
 		{
 			alive_enemies--;
 		}
@@ -290,7 +297,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 				}
 			}
 		}
-		else if (hero->combat.hp > 0)
+		if (hero->combat.hp > 0)
 		{
 			if (minion_goblin_2->combat.hp > 0)
 			{
@@ -322,7 +329,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 				}
 			}
 		}
-		else if (hero->combat.hp > 0)
+		if (hero->combat.hp > 0)
 		{
 			if (globin->combat.hp > 0)
 			{

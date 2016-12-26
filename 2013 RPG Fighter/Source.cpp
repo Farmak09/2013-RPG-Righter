@@ -71,7 +71,7 @@ void main()
 
 	printf("\n\nSo this are the stats you chose? At the moment you have %i health points(HP), %i minimum attack, %i maximum attack and %i of armor. You also have %i coins and %i health potions(each heals 50HP).", hero.combat.hp, hero.combat.attack_min, hero.combat.attack_max, hero.combat.armor, hero.coins, hero.items.potions);
 	getchar();
-	printf("\n\nIt is time to commence your adventure, %s. welocme to the dungeon...", hero.name);
+	printf("\n\nIt is time to commence your adventure, %s. Welcome to the dungeon...", hero.name);
 	getchar();
 
 	monster_data goblins[6], globin, wrath;
@@ -120,7 +120,7 @@ void main()
 
 		srand(time(NULL));
 
-		int wave_size = rand() % 6 + 1;
+		int wave_size = rand() % 1 + 1;
 
 		printf("\n\nBe careful! You are being attack by the wave %i of goblins! #%i now in front of you! Attack!", wave_number, wave_size);
 		getchar();
