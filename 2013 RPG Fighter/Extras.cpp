@@ -72,6 +72,8 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 	printf("\n\nThose guys have been together for a long time now, I am sure they even have an attack pattern.");
 	getchar();
 
+	// Enemies stats
+
 	minion_goblin_1->combat.hp				= 1 + rand() % 24;
 	minion_goblin_1->combat.attack_min		= rand() % 7;
 	minion_goblin_1->combat.attack_max		= minion_goblin_1->combat.attack_min + 5 + rand() % 7;
@@ -98,7 +100,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 	int alive_enemies = 3;
 
-	while (alive_enemies > 0 && hero->combat.hp > 0)
+	while (alive_enemies > 0 && hero->combat.hp > 0) // Hero attacks
 	{
 		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 		int damage_to_enemy;
@@ -244,7 +246,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			}
 		}
 
-		alive_enemies = 3;
+		alive_enemies = 3; // End of fight check
 
 		if (minion_goblin_1->combat.hp <= 0)
 		{
@@ -265,7 +267,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			getchar();
 		}
 
-		if (hero->combat.hp > 0)
+		if (hero->combat.hp > 0) // Enemies attack
 		{
 			if (minion_goblin_1->combat.hp > 0)
 			{
@@ -369,8 +371,11 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 {
 	printf("\n\n9 waves already... You deserve some healing %s. With your strength maybe you could be the one who- No, that would be too much even for you... What? you are saying nothing is too much for you? I appreciate those feelings but... Okay, okay I will believe you. If you are so sure about yourself I will lead you to Wrath's hideout, the strongest monster in the dungeon. Come this way.", hero->name);
 	getchar();
+
+	// Pre fight healing
 	hero->combat.hp = full_hp;
 
+	// Wrath's stats
 	wrath->combat.hp = hero->combat.hp;
 	wrath->combat.attack_min = hero->combat.attack_min;
 	wrath->combat.attack_max = hero->combat.attack_max;
@@ -382,7 +387,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 	printf("\n\nThere he is. Do not give him time to react! Attack!!");
 	getchar();
 
-	while (hero->combat.hp > 0 && wrath->combat.hp > 0)
+	while (hero->combat.hp > 0 && wrath->combat.hp > 0) // Hero attacks
 	{
 		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 		int damage_to_wrath = total_hero_attack - wrath->combat.armor;
@@ -423,7 +428,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 			getchar();
 		}
 
-		if (wrath->combat.hp > 0)
+		if (wrath->combat.hp > 0) // Wrath attacks
 		{
 			printf("\n\nGet ready for his counter attack!");
 			getchar();

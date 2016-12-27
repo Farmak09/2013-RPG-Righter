@@ -68,7 +68,7 @@ void main()
 	hero.xp						= 0;
 	hero.items.potions			= 1;
 
-
+	// Stats check and start of the adventure
 	printf("\n\nSo this are the stats you chose? At the moment you have %i health points(HP), %i minimum attack, %i maximum attack and %i of armor. You also have %i coins and %i health potions(each heals 50HP).", hero.combat.hp, hero.combat.attack_min, hero.combat.attack_max, hero.combat.armor, hero.coins, hero.items.potions);
 	getchar();
 	printf("\n\nIt is time to commence your adventure, %s. Welcome to the dungeon...", hero.name);
@@ -80,14 +80,14 @@ void main()
 
 	int full_hero_hp = hero.combat.hp;
 
-	while (hero.combat.hp > 0 && wave_number <= 10)
+	while (hero.combat.hp > 0)
 	{
-		if (hero.combat.hp < full_hero_hp)
+		if (hero.combat.hp < full_hero_hp) // Heal and shop function
 		{
 			pre_wave_shop(&hero, full_hero_hp, wave_number);
 		}
 
-		if (wave_number == 5)
+		if (wave_number == 5) // Midboss fight function
 		{
 			midboss_fight(&hero, &globin, &goblins[0], &goblins[1]);
 			if (hero.combat.hp <= 0)
@@ -104,7 +104,7 @@ void main()
 
 		}
 
-		if (wave_number == 10)
+		if (wave_number == 10) // Final boss fight function
 		{
 			final_boss_fight(&hero, &wrath, full_hero_hp);
 			if (hero.combat.hp <= 0)
@@ -115,6 +115,7 @@ void main()
 			{
 				printf("\n\nY-you did it...? You won? I cannot believe it... You really won... Thank you... *sob* Thank you very much %s", hero.name);
 				getchar();
+				break;
 			}
 		}
 
@@ -125,7 +126,7 @@ void main()
 		printf("\n\nBe careful! You are being attack by the wave %i of goblins! #%i now in front of you! Attack!", wave_number, wave_size);
 		getchar();
 
-		for (int i = 0; i < wave_size; i++)
+		for (int i = 0; i < wave_size; i++) // Generation of goblin stats
 		{
 			goblins[i].combat.hp				= 1 + rand() % 24;
 			goblins[i].combat.armor				= rand() % 4;
@@ -150,7 +151,7 @@ void main()
 		{
 			goblins_alive = wave_size;
 
-			if (hero.combat.hp > 0)
+			if (hero.combat.hp > 0) // Hero attacks
 			{
 				int goblin_attacked_index = rand() % wave_size;
 				srand(time(NULL));
@@ -212,7 +213,7 @@ void main()
 						getchar();
 					}
 
-					for (int i = 0; i <= wave_size; i++)
+					for (int i = 0; i <= wave_size; i++) // Goblins attack
 					{
 						if (hero.combat.hp > 0)
 						{
@@ -257,7 +258,7 @@ void main()
 		wave_number++;
 	}
 
-	if (hero.combat.hp <= 0)
+	if (hero.combat.hp <= 0) // Ded
 	{
 		printf("\n\n%s? Are you ok? Hey! Can you hear me?! %s?! NOOOOOOO!!", hero.name, hero.name);
 		getchar();
