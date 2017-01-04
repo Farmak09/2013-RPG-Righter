@@ -65,7 +65,7 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 	}
 }
 
-void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_goblin_1, monster_data* minion_goblin_2)
+void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_goblin_1, monster_data* minion_goblin_2, int force_of_fright)
 {
 	printf("\n\nYou are working really good %s! Feels like you will exterminate those gu-... Eh? What is that? It is similar to the others but... Oh! Oh no... It is not a simple goblin, it is Globin, the infamous hobgoblin! And he is not alone, two goblins are with him!", hero->name);
 	getchar();
@@ -90,7 +90,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 	minion_goblin_2->xp						= 15;
 	minion_goblin_2->items.potions			= 0;
 
-	globin->combat.hp						= 50;
+	globin->combat.hp						= 60;
 	globin->combat.attack_min				= 10;
 	globin->combat.attack_max				= 25;
 	globin->combat.armor					= 6;
@@ -134,10 +134,17 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_enemy *= 2;
+				}
+
+				if (force_of_fright == 100)
+				{
+					damage_to_enemy = 55;
+					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
+					getchar();
 				}
 
 				if (damage_to_enemy > 0)
@@ -175,7 +182,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_enemy *= 2;
@@ -215,7 +222,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_enemy *= 2;
@@ -273,7 +280,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				int attack_of_goblin = minion_goblin_1->combat.attack_min + rand() % (minion_goblin_1->combat.attack_max - minion_goblin_1->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_hero_recieves *= 2;
@@ -305,7 +312,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				int attack_of_goblin = minion_goblin_2->combat.attack_min + rand() % (minion_goblin_2->combat.attack_max - minion_goblin_2->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_hero_recieves *= 2;
@@ -337,7 +344,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				int attack_of_goblin = globin->combat.attack_min + rand() % (globin->combat.attack_max - globin->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_hero_recieves *= 2;
@@ -367,7 +374,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 	}
 }
 
-void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
+void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int* force_of_fright)
 {
 	printf("\n\n9 waves already... You deserve some healing %s. With your strength maybe you could be the one who- No, that would be too much even for you... What? you are saying nothing is too much for you? I appreciate those feelings but... Okay, okay I will believe you. If you are so sure about yourself I will lead you to Wrath's hideout, the strongest monster in the dungeon. Come this way.", hero->name);
 	getchar();
@@ -391,7 +398,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 	{
 		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 		int damage_to_wrath = total_hero_attack - wrath->combat.armor;
-		int crit_chance = rand() % 6;
+		int crit_chance = rand() % 6; // Critical hit
 		if (crit_chance == 5)
 		{
 			damage_to_wrath *= 2;
@@ -438,7 +445,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 
 			if (damage_to_hero > 0)
 			{
-				int crit_chance = rand() % 6;
+				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_hero *= 2;

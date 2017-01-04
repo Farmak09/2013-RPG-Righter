@@ -33,23 +33,21 @@ void main()
 	capitalize(hero_name);
 
 	int hero_hp			= 1;
-	int max_hp			= 200;
-	int min_hp			= 50;
 	int hero_dmg_min	= 1;
 	int hero_dmg_max	= 1;
-	int max_dmg			= 25;
 	int hero_armor		= 1;
+	int force_of_fright = 0; // special attack
 
 	printf("\n\nEnter combat stats for %s: ", hero_name);
 	printf("\n\nFirst you should enter the number of life points you are disposed to have. Take into account that no one can spend less than 50 life point and the maximum is 200 for trial.\n\n");
 	scanf("%i", &hero_hp);
-	hero_hp = check_get_character_within_range(hero_hp, max_hp, min_hp);
+	hero_hp = check_get_character_within_range(hero_hp, 200, 50);
 	printf("\n\nNow is time for you to decide your own power. As an imperfect creature, you are unable to decide with precision and there are some limits to your power. So, here! Which will be the minimum of your power? It must remain within 0 and 10, no more no less. And the maximum? Of course it will be bigger than the minimum right? Remember that your limit is 25.\n\nMinimum: ");
 	scanf("%i", &hero_dmg_min);
 	hero_dmg_min = check_get_character_within_range(hero_dmg_min, 10, 1);
 	printf("\n\nMaximum: ");
 	scanf("%i", &hero_dmg_max);
-	hero_dmg_max = check_get_character_within_range(hero_dmg_max, max_dmg, (hero_dmg_min + 1));
+	hero_dmg_max = check_get_character_within_range(hero_dmg_max, 25, (hero_dmg_min + 1));
 	printf("\n\nDo you need armor? In that case keep in mind your limit is 5, more would be too much weight.\n\n");
 	scanf("%i", &hero_armor);
 	hero_armor = check_get_character_within_range(hero_armor, 5, 0);
@@ -67,6 +65,7 @@ void main()
 	hero.coins					= 100;
 	hero.xp						= 0;
 	hero.items.potions			= 1;
+	hero.force_of_fright		= 0; // Special attack
 
 	// Stats check and start of the adventure
 	printf("\n\nSo this are the stats you chose? At the moment you have %i health points(HP), %i minimum attack, %i maximum attack and %i of armor. You also have %i coins and %i health potions(each heals 50HP).", hero.combat.hp, hero.combat.attack_min, hero.combat.attack_max, hero.combat.armor, hero.coins, hero.items.potions);
@@ -89,7 +88,7 @@ void main()
 
 		if (wave_number == 5) // Midboss fight function
 		{
-			midboss_fight(&hero, &globin, &goblins[0], &goblins[1]);
+			midboss_fight(&hero, &globin, &goblins[0], &goblins[1], &force_of_fright);
 			if (hero.combat.hp <= 0)
 			{
 				break;
@@ -106,7 +105,7 @@ void main()
 
 		if (wave_number == 10) // Final boss fight function
 		{
-			final_boss_fight(&hero, &wrath, full_hero_hp);
+			final_boss_fight(&hero, &wrath, full_hero_hp, force_of_fright);
 			if (hero.combat.hp <= 0)
 			{
 				break;
@@ -158,7 +157,7 @@ void main()
 
 				if (goblins[goblin_attacked_index].combat.hp > 0)
 				{
-					int total_hero_attack = hero.combat.attack_min + rand() % hero.combat.attack_max;
+					int total_hero_attack = hero.combat.attack_min + rand() % (hero.combat.attack_max - hero.combat.attack_min);
 					int damage_to_goblin = total_hero_attack - goblins[goblin_attacked_index].combat.armor;
 				
 					printf("\n\nYou are hitting the goblin #%i.", goblin_attacked_index + 1);
@@ -166,11 +165,18 @@ void main()
 
 					if (damage_to_goblin > 0)
 					{
-						int crit_chance = rand() % 6;
+						int crit_chance = rand() % 6; // Critical hit
 						if (crit_chance == 5)
 						{
 							damage_to_goblin *= 2;
 							printf("\n\nCritical hit!");
+							getchar();
+						}
+
+						if (force_of_fright == 100)
+						{
+							damage_to_goblin = 55;
+							printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 							getchar();
 						}
 
@@ -224,7 +230,7 @@ void main()
 
 								if (damage_hero_recieves > 0)
 								{
-									int crit_chance = rand() % 6;
+									int crit_chance = rand() % 6; // Critical hit
 									if (crit_chance == 5)
 									{
 										damage_hero_recieves *= 2;
@@ -233,12 +239,24 @@ void main()
 									}
 
 									hero.combat.hp -= damage_hero_recieves;
+
+									hero.force_of_fright += damage_hero_recieves;
+									force_of_fright = hero.force_of_fright;
+									hero.force_of_fright = check_get_character_within_range(force_of_fright, 100, 0);
+
 									if (hero.combat.hp < 0)
 									{
 										hero.combat.hp = 0;
 									}
-									printf("\n\nGoblin #%i hits you for %i! You have %i HP remaining! Be careful of the rest!", i + 1, damage_hero_recieves, hero.combat.hp);
+
+									printf("\n\nGoblin #%i hits you for %i! You have %i HP remaining!", i + 1, damage_hero_recieves, hero.combat.hp);
 									getchar();
+
+									if (hero.combat.hp > 0)
+									{
+										printf("\n\nThe fury within your heart is rising when the fright of death aproaches you. The force of that fury is %i% charged.", hero.force_of_fright);
+										getchar();
+									}
 								}
 								else
 								{

@@ -24,6 +24,7 @@ struct hero_data
 	struct combat_data combat;
 	int coins;
 	int xp;
+	int force_of_fright;
 };
 
 struct monster_data
