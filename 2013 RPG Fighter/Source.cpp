@@ -88,16 +88,17 @@ void main()
 
 		if (wave_number == 5) // Midboss fight function
 		{
-			midboss_fight(&hero, &globin, &goblins[0], &goblins[1], &force_of_fright);
+			midboss_fight(&hero, &globin, &goblins[0], &goblins[1], force_of_fright);
 			if (hero.combat.hp <= 0)
 			{
 				break;
 			}
 			else
 			{
-				printf("\n\nYou have fought well %s. Now Let me reward you with a full healing of your wounds.", hero.name);
+				printf("\n\nYou have fought well %s. Now Let me reward you with a full healing of your wounds and calming your mind.", hero.name);
 				getchar();
 				hero.combat.hp = full_hero_hp;
+				hero.force_of_fright = 0;
 				wave_number++;
 			}
 
@@ -153,7 +154,6 @@ void main()
 			if (hero.combat.hp > 0) // Hero attacks
 			{
 				int goblin_attacked_index = rand() % wave_size;
-				srand(time(NULL));
 
 				if (goblins[goblin_attacked_index].combat.hp > 0)
 				{
@@ -165,18 +165,18 @@ void main()
 
 					if (damage_to_goblin > 0)
 					{
+						if (force_of_fright == 100) // special attack
+						{
+							damage_to_goblin = 55;
+							printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
+							getchar();
+						}
+
 						int crit_chance = rand() % 6; // Critical hit
 						if (crit_chance == 5)
 						{
 							damage_to_goblin *= 2;
 							printf("\n\nCritical hit!");
-							getchar();
-						}
-
-						if (force_of_fright == 100)
-						{
-							damage_to_goblin = 55;
-							printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 							getchar();
 						}
 
@@ -240,10 +240,6 @@ void main()
 
 									hero.combat.hp -= damage_hero_recieves;
 
-									hero.force_of_fright += damage_hero_recieves;
-									force_of_fright = hero.force_of_fright;
-									hero.force_of_fright = check_get_character_within_range(force_of_fright, 100, 0);
-
 									if (hero.combat.hp < 0)
 									{
 										hero.combat.hp = 0;
@@ -254,6 +250,9 @@ void main()
 
 									if (hero.combat.hp > 0)
 									{
+										hero.force_of_fright += damage_hero_recieves;
+										force_of_fright = hero.force_of_fright;
+										hero.force_of_fright = check_get_character_within_range(force_of_fright, 100, 0);
 										printf("\n\nThe fury within your heart is rising when the fright of death aproaches you. The force of that fury is %i% charged.", hero.force_of_fright);
 										getchar();
 									}

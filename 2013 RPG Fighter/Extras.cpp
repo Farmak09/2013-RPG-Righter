@@ -56,11 +56,11 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 			getchar();
 			break;
 		}
-	defaulf:
-		{
-			printf("\n\nLet's go! the wave #%i is waitting", wave);
-			getchar();
-		}
+	}
+	default:
+	{
+		printf("\n\nLet's go! the wave #%i is waitting", wave);
+		getchar();
 	}
 	}
 }
@@ -102,7 +102,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 	while (alive_enemies > 0 && hero->combat.hp > 0) // Hero attacks
 	{
-		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
+		int total_hero_attack = hero->combat.attack_min + rand() % (hero->combat.attack_max - hero->combat.attack_min);
 		int damage_to_enemy;
 		int attacked_enemy = rand() % 3 + 1;
 		int attacked_enemy_armor;
@@ -123,7 +123,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			attacked_enemy_armor = globin->combat.armor;
 		}
 		}
-		
+
 		if (attacked_enemy_armor == minion_goblin_1->combat.armor)
 		{
 			if (minion_goblin_1->combat.hp <= 0)
@@ -134,17 +134,19 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
-				int crit_chance = rand() % 6; // Critical hit
-				if (crit_chance == 5)
-				{
-					damage_to_enemy *= 2;
-				}
 
-				if (force_of_fright == 100)
+				if (force_of_fright == 100) // Super attack
 				{
 					damage_to_enemy = 55;
 					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 					getchar();
+					force_of_fright = 0;
+				}
+
+				int crit_chance = rand() % 6; // Critical hit
+				if (crit_chance == 5)
+				{
+					damage_to_enemy *= 2;
 				}
 
 				if (damage_to_enemy > 0)
@@ -182,11 +184,21 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
+
+				if (force_of_fright == 100) // Super attack
+				{
+					damage_to_enemy = 55;
+					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
+					getchar();
+					force_of_fright = 0;
+				}
+
 				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_enemy *= 2;
 				}
+				
 				if (damage_to_enemy > 0)
 				{
 					minion_goblin_2->combat.hp -= damage_to_enemy;
@@ -194,6 +206,7 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 					{
 						minion_goblin_2->combat.hp = 0;
 					}
+
 					printf("\n\nYou hit the second goblin henchman for %i! Now his HP is %i.", damage_to_enemy, minion_goblin_2->combat.hp);
 					getchar();
 				}
@@ -222,11 +235,21 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			else
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
+
+				if (force_of_fright == 100) // Super attack
+				{
+					damage_to_enemy = 55;
+					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
+					getchar();
+					force_of_fright = 0;
+				}
+
 				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
 					damage_to_enemy *= 2;
 				}
+
 				if (damage_to_enemy > 0)
 				{
 					globin->combat.hp -= damage_to_enemy;
@@ -274,12 +297,15 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			getchar();
 		}
 
-		if (hero->combat.hp > 0) // Enemies attack
+		// Enemies attack   
+
+		if (hero->combat.hp > 0) // minion 1 attacks
 		{
 			if (minion_goblin_1->combat.hp > 0)
 			{
 				int attack_of_goblin = minion_goblin_1->combat.attack_min + rand() % (minion_goblin_1->combat.attack_max - minion_goblin_1->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
+
 				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
@@ -297,6 +323,17 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 						}
 						printf("\n\nThe first hencheman hits you for %i! You have %i HP remaining!", damage_hero_recieves, hero->combat.hp);
 						getchar();
+
+						if (hero->combat.hp > 0) // fright charger
+						{
+							hero->force_of_fright += damage_hero_recieves;
+							if (hero->force_of_fright > 100)
+							{
+								hero->force_of_fright = 100;
+							}
+							printf("\n\nThere is no time for fright! Just keep you mind calm!");
+							getchar();
+						}
 					}
 				}
 				else
@@ -306,12 +343,14 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 				}
 			}
 		}
-		if (hero->combat.hp > 0)
+
+		if (hero->combat.hp > 0) // minion 2 attacks
 		{
 			if (minion_goblin_2->combat.hp > 0)
 			{
 				int attack_of_goblin = minion_goblin_2->combat.attack_min + rand() % (minion_goblin_2->combat.attack_max - minion_goblin_2->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
+
 				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
@@ -329,6 +368,17 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 						}
 						printf("\n\nThe second hencheman hits you for %i! You have %i HP remaining!", damage_hero_recieves, hero->combat.hp);
 						getchar();
+
+						if (hero->combat.hp > 0) // fright charger
+						{
+							hero->force_of_fright += damage_hero_recieves;
+							if (hero->force_of_fright > 100)
+							{
+								hero->force_of_fright = 100;
+							}
+							printf("\n\nThere is no time for fright! Just keep you mind calm!");
+							getchar();
+						}
 					}
 				}
 				else
@@ -338,12 +388,14 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 				}
 			}
 		}
-		if (hero->combat.hp > 0)
+
+		if (hero->combat.hp > 0) // globin attacks
 		{
 			if (globin->combat.hp > 0)
 			{
 				int attack_of_goblin = globin->combat.attack_min + rand() % (globin->combat.attack_max - globin->combat.attack_min);
 				int damage_hero_recieves = attack_of_goblin - hero->combat.armor;
+
 				int crit_chance = rand() % 6; // Critical hit
 				if (crit_chance == 5)
 				{
@@ -361,8 +413,19 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 						}
 						printf("\n\nGlobin hits you for %i! You have %i HP remaining!", damage_hero_recieves, hero->combat.hp);
 						getchar();
+
+						if (hero->combat.hp > 0) // fright charger
+						{
+							hero->force_of_fright += damage_hero_recieves;
+							if (hero->force_of_fright > 100)
+							{
+								hero->force_of_fright = 100;
+							}
+							printf("\n\nThere is no time for fright! Just keep you mind calm!");
+							getchar();
+						}
 					}
-					
+
 				}
 				else
 				{
@@ -371,10 +434,16 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 				}
 			}
 		}
+
+		if (hero->combat.hp > 0 && alive_enemies > 0)
+		{
+		printf("\n\nYour fright has rised to %i%! But you need to end this fight!");
+		getchar();
+		}
 	}
 }
 
-void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int* force_of_fright)
+void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int force_of_fright)
 {
 	printf("\n\n9 waves already... You deserve some healing %s. With your strength maybe you could be the one who- No, that would be too much even for you... What? you are saying nothing is too much for you? I appreciate those feelings but... Okay, okay I will believe you. If you are so sure about yourself I will lead you to Wrath's hideout, the strongest monster in the dungeon. Come this way.", hero->name);
 	getchar();
@@ -393,11 +462,20 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int* fo
 
 	printf("\n\nThere he is. Do not give him time to react! Attack!!");
 	getchar();
-
+	
 	while (hero->combat.hp > 0 && wrath->combat.hp > 0) // Hero attacks
 	{
 		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 		int damage_to_wrath = total_hero_attack - wrath->combat.armor;
+
+		if (force_of_fright == 100) // Super attack
+		{
+			damage_to_wrath = 55;
+			printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
+			getchar();
+			force_of_fright = 0;
+		}
+
 		int crit_chance = rand() % 6; // Critical hit
 		if (crit_chance == 5)
 		{
@@ -459,6 +537,17 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int* fo
 				}
 				printf("\n\nHe swung his sword towards you! He dealt %i damage to you!", damage_to_hero);
 				getchar();
+
+				if (hero->combat.hp > 0) // fright charger
+				{
+					hero->force_of_fright += damage_to_hero;
+					if (hero->force_of_fright > 100)
+					{
+						hero->force_of_fright = 100;
+					}
+					printf("\n\nThe call of death aproaches you quickly. %i% of power gathered.");
+					getchar();
+				}
 			}
 			else
 			{
