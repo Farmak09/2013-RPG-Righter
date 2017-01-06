@@ -13,7 +13,6 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 	printf("\n\nThere are a few options you can follow at this point. \n\n-You could give me 100 coins for more potions, in which case you should imput 'b'.\n\n-You could heal yourself (notice you cannot heal and buy in the same wave), in which case you should imput 'h'.\n\n-You could go on with your adventure without any modification in which case you should just imput any other thing.");
 	
 	printf("\n\nYou currently have %i coins and %i potions, if you try to buy without 100 of them or heal without potions you will be teleported back to the dungeon automatically.\n\n", hero->coins, hero->items.potions);
-	getchar();
 
 	char imput;
 	scanf("%c", &imput);
@@ -25,7 +24,6 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 		{
 			printf("\n\nWhat? It seems you don't have enough coins... You were even warned... Well, you were the one who chose so back to the dungeon you go.");
 			getchar();
-			break;
 		}
 		else
 		{
@@ -33,7 +31,6 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 			hero->items.potions += 1;
 			printf("\n\nThank you for your purchase. %i coins and %i potions remaining. Now let's go.", hero->coins, hero->items.potions);
 			getchar();
-			break;
 		}
 	}
 	case 'h':
@@ -47,7 +44,7 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 		else
 		{
 			hero->items.potions -= 1;
-			hero->combat.hp += 100;
+			hero->combat.hp += 50;
 			if (hero->combat.hp > full_hp)
 			{
 				hero->combat.hp = full_hp;
@@ -65,7 +62,7 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 	}
 }
 
-void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_goblin_1, monster_data* minion_goblin_2, int force_of_fright)
+void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_goblin_1, monster_data* minion_goblin_2)
 {
 	printf("\n\nYou are working really good %s! Feels like you will exterminate those gu-... Eh? What is that? It is similar to the others but... Oh! Oh no... It is not a simple goblin, it is Globin, the infamous hobgoblin! And he is not alone, two goblins are with him!", hero->name);
 	getchar();
@@ -135,12 +132,12 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
 
-				if (force_of_fright == 100) // Super attack
+				if (hero->force_of_fright == 100) // Super attack
 				{
 					damage_to_enemy = 55;
 					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 					getchar();
-					force_of_fright = 0;
+					hero->force_of_fright = 0;
 				}
 
 				int crit_chance = rand() % 6; // Critical hit
@@ -185,12 +182,12 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
 
-				if (force_of_fright == 100) // Super attack
+				if (hero->force_of_fright == 100) // Super attack
 				{
 					damage_to_enemy = 55;
 					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 					getchar();
-					force_of_fright = 0;
+					hero->force_of_fright = 0;
 				}
 
 				int crit_chance = rand() % 6; // Critical hit
@@ -236,12 +233,12 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 			{
 				damage_to_enemy = total_hero_attack - attacked_enemy_armor;
 
-				if (force_of_fright == 100) // Super attack
+				if (hero->force_of_fright == 100) // Super attack
 				{
 					damage_to_enemy = 55;
 					printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 					getchar();
-					force_of_fright = 0;
+					hero->force_of_fright = 0;
 				}
 
 				int crit_chance = rand() % 6; // Critical hit
@@ -437,13 +434,13 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 
 		if (hero->combat.hp > 0 && alive_enemies > 0)
 		{
-		printf("\n\nYour fright has rised to %i%! But you need to end this fight!");
+		printf("\n\nYour fright has rised to %i per cent! But you need to end this fight!", hero->force_of_fright);
 		getchar();
 		}
 	}
 }
 
-void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int force_of_fright)
+void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 {
 	printf("\n\n9 waves already... You deserve some healing %s. With your strength maybe you could be the one who- No, that would be too much even for you... What? you are saying nothing is too much for you? I appreciate those feelings but... Okay, okay I will believe you. If you are so sure about yourself I will lead you to Wrath's hideout, the strongest monster in the dungeon. Come this way.", hero->name);
 	getchar();
@@ -468,12 +465,12 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int for
 		int total_hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 		int damage_to_wrath = total_hero_attack - wrath->combat.armor;
 
-		if (force_of_fright == 100) // Super attack
+		if (hero->force_of_fright == 100) // Super attack
 		{
 			damage_to_wrath = 55;
 			printf("The fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 			getchar();
-			force_of_fright = 0;
+			hero->force_of_fright = 0;
 		}
 
 		int crit_chance = rand() % 6; // Critical hit
@@ -535,7 +532,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int for
 				{
 					hero->combat.hp = 0;
 				}
-				printf("\n\nHe swung his sword towards you! He dealt %i damage to you!", damage_to_hero);
+				printf("\n\nHe swung his sword towards you! He dealt %i damage to you! %i HP left", damage_to_hero, hero->combat.hp);
 				getchar();
 
 				if (hero->combat.hp > 0) // fright charger
@@ -545,7 +542,7 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp, int for
 					{
 						hero->force_of_fright = 100;
 					}
-					printf("\n\nThe call of death aproaches you quickly. %i% of power gathered.");
+					printf("\n\nThe call of death aproaches you quickly. %i per cent of power gathered.", hero->force_of_fright);
 					getchar();
 				}
 			}
