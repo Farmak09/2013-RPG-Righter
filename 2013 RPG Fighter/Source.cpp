@@ -83,7 +83,7 @@ void main()
 
 	while (hero.combat.hp > 0)
 	{
-		if (hero.combat.hp < full_hero_hp) // Heal and shop function
+		if (wave_number > 1) // Prewave number
 		{
 			pre_wave_shop(&hero, full_hero_hp, wave_number);
 		}
@@ -168,7 +168,7 @@ void main()
 					{
 						if (hero.force_of_fright == 100) // special attack
 						{
-							damage_to_goblin = 55;
+							damage_to_goblin = 75;
 							printf("\n\nThe fright within your soul resounds with its maximum force. It is a power so strong you cannot contain it. With your death in sight, you unleash the strongest attack yet done.");
 							getchar();
 							hero.force_of_fright = 0;
