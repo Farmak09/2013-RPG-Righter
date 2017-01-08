@@ -83,11 +83,6 @@ void main()
 
 	while (hero.combat.hp > 0)
 	{
-		if (wave_number > 1) // Prewave number
-		{
-			pre_wave_shop(&hero, full_hero_hp, wave_number);
-		}
-
 		if (wave_number == 5) // Midboss fight function
 		{
 			midboss_fight(&hero, &globin, &goblins[0], &goblins[1]);
@@ -103,12 +98,16 @@ void main()
 				hero.force_of_fright = 0;
 				wave_number++;
 			}
+		}
 
+		if (wave_number > 1) // Prewave shop
+		{
+			pre_wave_shop(&hero, &full_hero_hp, wave_number);
 		}
 
 		if (wave_number == 10) // Final boss fight function
 		{
-			final_boss_fight(&hero, &wrath, full_hero_hp);
+			final_boss_fight(&hero, &wrath, &full_hero_hp);
 			if (hero.combat.hp <= 0)
 			{
 				break;

@@ -6,7 +6,7 @@
 #include "creatures.h"
 #include "Mystrings.h"
 
-void pre_wave_shop(hero_data* hero, int full_hp, int wave)
+void pre_wave_shop(hero_data* hero, int* full_hp, int wave)
 {
 	printf("\n\nThat was tough... You have %iHP remaining.", hero->combat.hp);
 	
@@ -45,9 +45,9 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 		{
 			hero->items.potions -= 1;
 			hero->combat.hp += 50;
-			if (hero->combat.hp > full_hp)
+			if (hero->combat.hp > *full_hp)
 			{
-				hero->combat.hp = full_hp;
+				hero->combat.hp = *full_hp;
 			}
 			printf("\n\nNow you have %iHP. Time to go back.", hero->combat.hp);
 			getchar();
@@ -93,7 +93,7 @@ void pre_wave_shop(hero_data* hero, int full_hp, int wave)
 	{
 		if (hero->coins >= 250)
 		{
-			hero->combat.hp += 50;
+			*full_hp += 50;
 			hero->coins -= 250;
 			printf("\n\nThank you for your patronage. Your life points have increased thanks to this.");
 			getchar();
@@ -504,13 +504,13 @@ void midboss_fight(hero_data* hero, monster_data* globin, monster_data* minion_g
 	}
 }
 
-void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
+void final_boss_fight(hero_data* hero, monster_data* wrath, int* full_hp)
 {
 	printf("\n\n9 waves already... You deserve some healing %s. With your strength maybe you could be the one who- No, that would be too much even for you... What? you are saying nothing is too much for you? I appreciate those feelings but... Okay, okay I will believe you. If you are so sure about yourself I will lead you to Wrath's hideout, the strongest monster in the dungeon. Come this way.", hero->name);
 	getchar();
 
 	// Pre fight healing
-	hero->combat.hp = full_hp;
+	hero->combat.hp = *full_hp;
 
 	// Wrath's stats
 	wrath->combat.hp = hero->combat.hp;
@@ -562,9 +562,9 @@ void final_boss_fight(hero_data* hero, monster_data* wrath, int full_hp)
 				wrath->items.potions -= 1;
 				hero->items.potions += 1;
 				wrath->combat.hp += 50;
-				if (wrath->combat.hp > full_hp)
+				if (wrath->combat.hp > *full_hp)
 				{
-					wrath->combat.hp = full_hp;
+					wrath->combat.hp = *full_hp;
 				}
 			}
 		}
