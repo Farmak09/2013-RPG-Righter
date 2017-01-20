@@ -10,6 +10,7 @@ struct combat_data
 	int attack_min;
 	int attack_max;
 	int armor;
+	int mana;
 };
 
 struct bag
@@ -17,14 +18,23 @@ struct bag
 	int potions;
 };
 
+struct spells
+{
+	int faia_boruto;
+	int heal;
+	int icicle_fall;
+};
+
 struct hero_data
 {
+	struct spells spells;
 	struct bag items;
 	char name[10];
 	struct combat_data combat;
 	int coins;
 	int xp;
 	int force_of_fright;
+	int level;
 };
 
 struct monster_data

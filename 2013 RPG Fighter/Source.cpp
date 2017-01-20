@@ -62,10 +62,12 @@ void main()
 	hero.combat.attack_min		= hero_dmg_min;
 	hero.combat.attack_max		= hero_dmg_max;
 	hero.combat.armor			= hero_armor;
+	hero.combat.mana			= 100;
 	hero.coins					= 100;
 	hero.xp						= 0;
 	hero.items.potions			= 1;
 	hero.force_of_fright		= 0; // Special attack
+	hero.level					= 1;
 
 	// Stats check and start of the adventure
 	printf("\n\nSo this are the stats you chose? At the moment you have %i health points(HP), %i minimum attack, %i maximum attack and %i of armor. You also have %i coins and %i health potions(each heals 50HP).", hero.combat.hp, hero.combat.attack_min, hero.combat.attack_max, hero.combat.armor, hero.coins, hero.items.potions);
@@ -207,6 +209,8 @@ void main()
 						printf("\n\nYou need to try harder! Those guys will not recieve damage from that.");
 						getchar();
 					}
+
+					reberu_appu(&hero, &full_hero_hp);		// Level up
 
 					for (int i = 0; i < wave_size; i++)
 					{

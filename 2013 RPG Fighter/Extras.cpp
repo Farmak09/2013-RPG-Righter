@@ -6,6 +6,19 @@
 #include "creatures.h"
 #include "Mystrings.h"
 
+void reberu_appu(hero_data* hero, int* full_hp)
+{
+	if (hero->xp >= 90 * hero->level)
+	{
+		hero->combat.hp				+= 25;
+		*full_hp					+= 25;
+		hero->combat.attack_min		+= 3;
+		hero->combat.attack_max		+= 3;
+		hero->combat.armor			+= 2;
+		hero->combat.mana			+= 15;
+	}
+}
+
 void pre_wave_shop(hero_data* hero, int* full_hp, int wave)
 {
 	printf("\n\nThat was tough... You have %iHP remaining.", hero->combat.hp);
