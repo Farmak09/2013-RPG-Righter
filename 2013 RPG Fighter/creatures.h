@@ -20,9 +20,10 @@ struct bag
 
 struct spells
 {
-	int faia_boruto;
-	int heal;
+	int yol_toor_shul;
+	int synthesis;
 	int icicle_fall;
+	int windstrike;
 };
 
 struct hero_data
@@ -33,8 +34,10 @@ struct hero_data
 	struct combat_data combat;
 	int coins;
 	int xp;
-	int force_of_fright;
 	int level;
+	int AoE;
+	int pasive;
+	int full_hp;
 };
 
 struct monster_data
