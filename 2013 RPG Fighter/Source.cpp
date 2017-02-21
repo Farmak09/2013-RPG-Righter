@@ -209,7 +209,7 @@ void main()
 						getchar();
 					}
 
-					for (int i = 0; i <= wave_size; i++) // Goblins attack
+					for (int i = 0; i < wave_size; i++) // Goblins attack
 					{
 						if (hero.combat.hp > 0)
 						{

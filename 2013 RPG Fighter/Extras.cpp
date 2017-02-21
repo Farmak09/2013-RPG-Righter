@@ -220,6 +220,12 @@ int hero_attacking_calculations(hero_data* hero, monster_data* enemy)
 					damage_dealt = (hero->combat.attack_max / 2);
 					hero->AoE = 1;
 					hero->combat.mana -= 35;
+					if (rand() % 6 == 0)
+					{
+						damage_dealt *= 2;
+						printf("\n\nCritical Hit!");
+						getchar();
+					}
 					break;
 				}
 				else
@@ -258,9 +264,17 @@ int hero_attacking_calculations(hero_data* hero, monster_data* enemy)
 				damage_dealt = hero_attacking_calculations(hero, enemy);
 			}
 			}
+			break;
 		}
 		case 2:
 		{
+			damage_dealt = (hero->combat.attack_min + (rand() % (hero->combat.attack_max - hero->combat.attack_min))) - enemy->combat.armor;
+			if (rand() % 6 == 0)
+			{
+				damage_dealt *= 2;
+				printf("\n\nCritical Hit!");
+				getchar();
+			}
 			break;
 		}
 		default:

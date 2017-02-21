@@ -1,0 +1,13 @@
+﻿  Extras.cpp
+Extras.cpp(67): warning C4474: 'printf' : too many arguments passed for format string
+  Extras.cpp(67): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
+Extras.cpp(604): warning C4474: 'printf' : too many arguments passed for format string
+  Extras.cpp(604): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+  Mystrings.cpp
+  Source.cpp
+Source.cpp(108): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating code
+  All 19 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  2013 RPG Fighter.vcxproj -> C:\Users\jaumesv1\Documents\GitHub\2013-RPG-Righter\Release\2013 RPG Fighter.exe
+  2013 RPG Fighter.vcxproj -> C:\Users\jaumesv1\Documents\GitHub\2013-RPG-Righter\Release\2013 RPG Fighter.pdb (Full PDB)
